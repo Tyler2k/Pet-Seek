@@ -1,17 +1,29 @@
-<ion-header>
+<!-- <ion-header>
   <ion-navbar>
     <ion-title>Home</ion-title>
   </ion-navbar>
+</ion-header> -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+
+<ion-content>
+
+  <ion-list [hidden]="autocompleteItems.length == 0">
+    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+      {{ item }}
+    </ion-item>
+  </ion-list>
+  <ion-item-group *ngFor="let filter of filters" [hidden]="validateBreedList(filter)">
+    <ion-item-divider color="light" (click)="validateFilters(filter);">
+      {{filter.name}}
+      <ion-icon item-left name="add" *ngIf="!filter.active"></ion-icon>
+      <ion-icon item-left name="remove" *ngIf="filter.active"></ion-icon>
+      <ion-note item-end>{{filter.currentItem}}</ion-note>
+    </ion-item-divider>
+    <ion-item *ngFor="let item of filter.items" [@expand]="filter.active" (click)="updateFilter(filter, item);">{{item.name}}</ion-item>
+  </ion-item-group>
 </ion-content>
