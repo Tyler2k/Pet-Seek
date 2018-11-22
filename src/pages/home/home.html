@@ -1,29 +1,45 @@
-<!-- <ion-header>
+<ion-header>
   <ion-navbar>
     <ion-title>Home</ion-title>
   </ion-navbar>
-</ion-header> -->
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
 
-  <ion-list [hidden]="autocompleteItems.length == 0">
-    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-      {{ item }}
-    </ion-item>
-  </ion-list>
+  <ion-item-group>
+
+    <!-- Search Bar -->
+    <ion-toolbar color="light">
+      <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" (ionClear)="onClearLocation($event)" placeholder="Search Locations">
+      </ion-searchbar>
+      <ion-buttons end>
+        <button ion-button icon-only tappable (click)="getCurrentLocation()">
+          <ion-icon name="pin" color="primary"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <!-- Location Search Predictions Auto Complete List -->
+    <ion-list [hidden]="locationPredictions?.length == 0">
+      <ion-item *ngFor="let location of locationPredictions" tappable (click)="selectLocation(location)">
+        {{ location }}
+      </ion-item>
+    </ion-list>
+
+  </ion-item-group>
+
+  <!-- Search Filters -->
   <ion-item-group *ngFor="let filter of filters" [hidden]="validateBreedList(filter)">
-    <ion-item-divider color="light" (click)="validateFilters(filter);">
+    <ion-item-divider color="light" (click)="toggleGroup(filter);">
       {{filter.name}}
-      <ion-icon item-left name="add" *ngIf="!filter.active"></ion-icon>
-      <ion-icon item-left name="remove" *ngIf="filter.active"></ion-icon>
-      <ion-note item-end>{{filter.currentItem}}</ion-note>
+      <ion-note item-right>{{filter.currentItem}}</ion-note>
+      <ion-icon item-end name="arrow-forward" color="gray" class="arrow" *ngIf="!filter.active"></ion-icon>
+      <ion-icon item-end name="arrow-down" color="gray" class="arrow" *ngIf="filter.active"></ion-icon>
     </ion-item-divider>
     <ion-item *ngFor="let item of filter.items" [@expand]="filter.active" (click)="updateFilter(filter, item);">{{item.name}}</ion-item>
   </ion-item-group>
+
+  <button (click)="queryPets(petRequest)">search</button>
+
 </ion-content>

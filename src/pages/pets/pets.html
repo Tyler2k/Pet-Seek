@@ -1,0 +1,19 @@
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let pet of pets">
+      <ion-slides pager loop>
+        <ion-slide *ngFor="let photo of pet.photos" class="pet-image" >
+          <div class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></div>
+        </ion-slide>
+      </ion-slides>
+      <ion-card-content>
+        <ion-card-title>
+          {{ pet.name }}
+        </ion-card-title>
+        <p>
+          {{ pet.tagLine }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

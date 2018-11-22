@@ -56,6 +56,19 @@ export class FilterService {
                 { name: 'Large', id: 'L' },
                 { name: 'Extra Large', id: 'XL' }
             ],          
+        },
+        {
+            name: 'Age',
+            id: 'age',
+            active: false,
+            currentItem: 'Any',
+            items: [
+                { name: 'Any', id: '' },
+                { name: 'Baby', id: 'S' },
+                { name: 'Young', id: 'M' },
+                { name: 'Adult', id: 'L' },
+                { name: 'Senior', id: 'XL' }
+            ],          
         }
     ]
 }

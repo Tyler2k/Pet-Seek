@@ -5,8 +5,7 @@ import { PetFinderService } from '../../services/pet-finder.service';
 import { PetModel, PetQueryRequest } from '../../models/pets.model';
 import { BreedSearchPage } from '../partials/breed-search/breed-search';
 import { FilterService } from '../../services/filter.service';
-
-declare var google;
+import { PetPage } from '../pets/pets';
 
 @Component({
   selector: 'page-home',
@@ -39,14 +38,12 @@ export class HomePage implements OnInit {
     private petFinderService: PetFinderService,
     public modalCtrl: ModalController,
     private filterService: FilterService,
-    private zone: NgZone,
   ) {
     this.filters = this.filterService.getFilters();
     this.breedFilter = this.filters.find(obj => obj.id == 'breed');
 
-    this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
     this.autocomplete = { input: '' };
-    this.autocompleteItems = [];
+    this.locationPredictions = [];
   }
 
   pets: PetModel[];
@@ -56,40 +53,39 @@ export class HomePage implements OnInit {
   loadingText = 'Finding Pets Near You';
   breeds;
   filters;
-  map;
-  GoogleAutocomplete;
   autocomplete;
-  autocompleteItems;
-  // options = {
-  //   types: ['(cities)'],
-  //   input: { input: '' },
-  // };
+  locationPredictions;
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.locationService.getGeneralLocationFromIp().subscribe(r => {
+      console.log(r)
+    })
+  }
 
   updateSearchResults() {
     if (this.autocomplete.input == '') {
-      this.autocompleteItems = [];
-      return;
-    }
-    this.GoogleAutocomplete.getPlacePredictions({types: ['(cities)'], componentRestrictions: {country: 'us'}, input: this.autocomplete.input },
-      (predictions, status) => {
-        console.log(predictions)
-        this.autocompleteItems = [];
-        if (predictions) {
-          this.zone.run(() => {
-            predictions.forEach((prediction) => {
-              this.autocompleteItems.push(prediction.description.replace(', USA',''));
-            });
-          });
-        }
+      this.locationPredictions = [];
+    } else {
+      this.locationService.getPlacePredictions(this.autocomplete.input).then(r => {
+        this.locationPredictions = r;
       });
+    }
   }
 
-  selectSearchResult(item) {
-    this.autocompleteItems = [];
-    this.petRequest.location = item;
-    this.queryPets(this.petRequest);
+  onClearLocation() {
+    this.petRequest.location = null;
+  }
+
+  getCurrentLocation() {
+    this.locationService.getCurrentLocation().then(location => {
+      this.selectLocation(<string>location);
+    })
+  }
+
+  selectLocation(location: string) {
+    this.locationPredictions = [];
+    this.autocomplete.input = location;
+    this.petRequest.location = location;
   }
 
   updateFilter(filter, selectedItem) {
@@ -103,19 +99,10 @@ export class HomePage implements OnInit {
     this.toggleGroup(filter);
   }
 
-  validateFilters(filter) {
-    if (filter.id == 'breed') {
-      if (this.petRequest.animal) {
-        this.presentBreedSearchModal();
-      } else {
-        console.log('BAD')
-      }
-    } else {
-      this.toggleGroup(filter);
-    }
-  }
-
   toggleGroup(filter) {
+    if (filter.id == 'breed') {
+      this.presentBreedSearchModal();
+    }
     for (var i = 0; i < this.filters.length; i++) {
       //close all other active groups
       if (this.filters[i].id != filter.id) this.filters[i].active = false;
@@ -128,7 +115,7 @@ export class HomePage implements OnInit {
     const searchModal = this.modalCtrl.create(BreedSearchPage, { breedList: this.breeds });
     searchModal.onDidDismiss(selectedItem => {
       this.breedFilter.active = false;
-      selectedItem ? this.breedFilter.currentItem = selectedItem : this.breedFilter.currentItem = null;
+      selectedItem ? this.breedFilter.currentItem = selectedItem : this.breedFilter.currentItem = 'Any';
       this.petRequest[this.breedFilter.id] = selectedItem;
     });
     searchModal.present();
@@ -152,9 +139,8 @@ export class HomePage implements OnInit {
     this.petFinderService.queryPets(query).subscribe(
       petList => {
         this.pets = petList.pets;
-        setTimeout(() => {
-          this.loading = false;
-        }, 1000);
+        this.loading = false;
+        this.navCtrl.push(PetPage, {pets: petList.pets});
         console.log(this.pets);
       },
       e => {

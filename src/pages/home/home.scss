@@ -1,11 +1,29 @@
+* {
+    font-size: 16px;
+}
+
 ion-item-group {
   border-bottom: 1px solid gray;
 }
 
+
 .item-inner {
-  padding-right: 16px;
+  ion-icon.arrow {
+    font-size: 22px;
+    line-height: 2;
+    margin-left: 6px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 6px;
+    width: 14px;
+  }
 }
 
-#map {
-  height: 100%;
+ion-item-divider {
+  padding-right: 10px;
+}
+
+ion-searchbar.searchbar .searchbar-input-container input.searchbar-input {
+  background: #fff;
+  font-size: 16px;
 }

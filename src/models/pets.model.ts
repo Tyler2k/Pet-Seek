@@ -29,8 +29,8 @@ export class PetModel {
 		this.description = pet.description['$t'];
 		this.id = pet.id['$t'];
 		this.lastUpdate = pet.lastUpdate['$t'];
-		this.photos = pet.media.photos ? this.formatArray(pet.media.photos.photo, true) : null;
-		this.featuredPhoto = pet.media.photos ? this.getFeaturedPhoto(pet.media.photos.photo) : null;
+		this.photos = pet.media.photos ? this.getFeaturedPhoto(pet.media.photos.photo) : null;
+		//this.featuredPhoto = pet.media.photos ? this.getFeaturedPhoto(pet.media.photos.photo) : null;
 		this.mix = pet.mix['$t'];
 		this.name = pet.name['$t'];
 		this.options = pet.options.option ? this.formatArray(pet.options.option) : null;
@@ -101,11 +101,14 @@ export class PetModel {
 	}
 
 	private getFeaturedPhoto(photos: PetMedia[]) {
+		let slidePhotos = [];
 		for (let p of photos) {
-			if (p.size == 'pn' && p.id == '1') {
-				return p.url;
+			let photo = new PetMedia(p);
+			if (photo.size == 'pn') {
+				slidePhotos.push(photo.url);
 			}
 		}
+		return slidePhotos;
 	}
 
 	private formatLocation(contact: ContactInfo) {
@@ -140,7 +143,7 @@ export class PetQueryRequest {
 	offset: string;
 	count: number;
 
-	constructor(animal: string = null, breed: string = null, size: string = null, sex: string = null, location: string = null, age: string = null, offset: string = null, count: number = 20) {
+	constructor(animal: string = null, breed: string = null, size: string = null, sex: string = null, location: string = null, age: string = null, offset: string = null, count: number = 10) {
 		this.animal = animal;
 		this.breed = breed;
 		this.size = size;
