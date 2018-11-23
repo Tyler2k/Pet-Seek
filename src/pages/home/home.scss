@@ -19,8 +19,9 @@ ion-item-group {
   }
 }
 
-ion-item-divider {
-  padding-right: 10px;
+ion-item-divider.item-divider {
+  padding-right: 0px;
+  padding-left: 14px;
 }
 
 ion-searchbar.searchbar .searchbar-input-container input.searchbar-input {

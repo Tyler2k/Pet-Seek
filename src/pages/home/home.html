@@ -40,6 +40,6 @@
     <ion-item *ngFor="let item of filter.items" [@expand]="filter.active" (click)="updateFilter(filter, item);">{{item.name}}</ion-item>
   </ion-item-group>
 
-  <button (click)="queryPets(petRequest)">search</button>
+  <button (click)="searchPets(petRequest)">search</button>
 
 </ion-content>

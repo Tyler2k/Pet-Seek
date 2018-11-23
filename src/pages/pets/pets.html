@@ -1,9 +1,9 @@
 <ion-content>
-  <ion-list>
-    <ion-card *ngFor="let pet of pets">
-      <ion-slides pager loop>
-        <ion-slide *ngFor="let photo of pet.photos" class="pet-image" >
-          <div class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></div>
+  <ion-list [virtualScroll]="pets" approxItemHeight="360px">
+    <ion-card *virtualItem="let pet">
+      <ion-slides pager>
+        <ion-slide *ngFor="let photo of pet.photos" class="pet-image">
+          <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></ion-img>
         </ion-slide>
       </ion-slides>
       <ion-card-content>
@@ -13,7 +13,13 @@
         <p>
           {{ pet.tagLine }}
         </p>
+        <ion-icon name="heart" color="primary" (click)="favoritePet();"></ion-icon>
       </ion-card-content>
     </ion-card>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="1000px">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>

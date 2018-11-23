@@ -40,7 +40,7 @@ export class PetModel {
 		this.size = this.getSize(pet.size['$t']);
 		this.status = this.getStatus(pet.status['$t']);
 		this.tagLine = this.formatTagline(this.age, this.breeds, this.sex);
-		this.location = this.formatLocation(this.contact)
+		this.location = this.formatLocation(this.contact);
 	}
 
 	private formatTagline(age: string = null, breeds: string = null, sex: string = null) {
@@ -143,7 +143,7 @@ export class PetQueryRequest {
 	offset: string;
 	count: number;
 
-	constructor(animal: string = null, breed: string = null, size: string = null, sex: string = null, location: string = null, age: string = null, offset: string = null, count: number = 10) {
+	constructor(animal: string = null, breed: string = null, size: string = null, sex: string = null, location: string = null, age: string = null, offset: string = null, count: number = 25) {
 		this.animal = animal;
 		this.breed = breed;
 		this.size = size;

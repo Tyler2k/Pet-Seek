@@ -134,24 +134,10 @@ export class HomePage implements OnInit {
     return filter.id == 'breed' && !this.petRequest.animal;
   }
 
-  queryPets(query: PetQueryRequest) {
-    this.loading = true;
-    this.petFinderService.queryPets(query).subscribe(
-      petList => {
-        this.pets = petList.pets;
-        this.loading = false;
-        this.navCtrl.push(PetPage, {pets: petList.pets});
-        console.log(this.pets);
-      },
-      e => {
-        console.log(e);
-        this.loading = false;
-      }
-    )
+  searchPets(petRequest: PetQueryRequest) {
+    this.navCtrl.push(PetPage, { petRequest: petRequest });
   }
-
 }
-
 
 
 
