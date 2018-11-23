@@ -5,6 +5,7 @@ import { MyApp } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -36,6 +37,7 @@ import { FilterService } from '../services/filter.service';
     HttpClientJsonpModule,
     BrowserModule,
     BrowserAnimationsModule,
+    IonicStorageModule.forRoot({name: '__fpdb'}),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

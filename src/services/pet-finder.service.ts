@@ -15,12 +15,16 @@ export class PetFinderService {
 	private petFinderUrl: string = "http://api.petfinder.com/";
 	private key = 'fa55926ac35934c7a9cba7c6d287c446';
 
-	getSinglePet() {
+	getRandomPet() {
 		let data = {
 			animal: 'dog',
 			output: 'full'
 		}
-		return this.http.jsonp(this.petFinderUrl + 'pet.getRandom?format=json&key=fa55926ac35934c7a9cba7c6d287c446&' + this.toHttpParams(data), 'callback');
+		return this.http.jsonp(this.petFinderUrl + 'pet.getRandom?format=json&key=fa55926ac35934c7a9cba7c6d287c446' + this.toHttpParams(data), 'callback');
+	}
+
+	getSinglePet() {
+		return this.http.jsonp(this.petFinderUrl + 'pet.get?format=json&key=fa55926ac35934c7a9cba7c6d287c446&id=40861841', 'callback');
 	}
 
 	queryPets(data: PetQueryRequest): Observable<PetQueryResponse> {

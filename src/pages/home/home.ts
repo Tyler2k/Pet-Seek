@@ -60,6 +60,9 @@ export class HomePage implements OnInit {
     this.locationService.getGeneralLocationFromIp().subscribe(r => {
       console.log(r)
     })
+    this.petFinderService.getSinglePet().subscribe(r => {
+      console.log(r)
+    })
   }
 
   updateSearchResults() {
