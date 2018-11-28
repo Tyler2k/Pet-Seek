@@ -1,0 +1,5 @@
+ion-item ion-thumbnail {
+    width: 70px !important;
+    height: 70px !important;
+    @include background();
+}

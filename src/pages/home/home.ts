@@ -5,7 +5,7 @@ import { PetFinderService } from '../../services/pet-finder.service';
 import { PetModel, PetQueryRequest } from '../../models/pets.model';
 import { BreedSearchPage } from '../partials/breed-search/breed-search';
 import { FilterService } from '../../services/filter.service';
-import { PetPage } from '../pets/pets';
+import { PetListPage } from '../pet-list/pet-list';
 
 @Component({
   selector: 'page-home',
@@ -58,9 +58,6 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.locationService.getGeneralLocationFromIp().subscribe(r => {
-      console.log(r)
-    })
-    this.petFinderService.getSinglePet().subscribe(r => {
       console.log(r)
     })
   }
@@ -138,7 +135,7 @@ export class HomePage implements OnInit {
   }
 
   searchPets(petRequest: PetQueryRequest) {
-    this.navCtrl.push(PetPage, { petRequest: petRequest });
+    this.navCtrl.push(PetListPage, { petRequest: petRequest });
   }
 }
 

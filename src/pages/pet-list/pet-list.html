@@ -1,6 +1,6 @@
 <ion-content>
   <ion-list [virtualScroll]="pets" approxItemHeight="360px">
-    <ion-card *virtualItem="let pet">
+    <ion-card *virtualItem="let pet;">
       <ion-slides pager>
         <ion-slide *ngFor="let photo of pet.photos" class="pet-image">
           <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></ion-img>
@@ -13,8 +13,14 @@
         <p>
           {{ pet.tagLine }}
         </p>
-        <ion-icon name="heart" color="primary" (click)="favoritePet(pet);"></ion-icon>
+        <p>
+          {{ pet.breed }}
+        </p>
+          <ion-icon class="heart-icon" *ngIf="!pet.isFavorite" name="heart-outline" color="pink" (click)="favoritePet(pet);"></ion-icon>
+          <ion-icon class="heart-icon" *ngIf="pet.isFavorite" name="heart" color="pink" (click)="unFavoritePet(pet);"></ion-icon>
+
       </ion-card-content>
+
     </ion-card>
   </ion-list>
 

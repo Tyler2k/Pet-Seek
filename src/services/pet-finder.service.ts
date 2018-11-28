@@ -4,12 +4,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { FavoritesService } from './favorites.service';
 
 @Injectable()
 export class PetFinderService {
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private favoritesService: FavoritesService,
 	) { }
 
 	private petFinderUrl: string = "http://api.petfinder.com/";
@@ -29,7 +31,7 @@ export class PetFinderService {
 
 	queryPets(data: PetQueryRequest): Observable<PetQueryResponse> {
 		return this.http.jsonp(`${this.petFinderUrl}pet.find?format=json&key=${this.key}&${this.toHttpParams(data)}`, 'callback').pipe(map(pets => {
-			return new PetQueryResponse(pets);
+			return new PetQueryResponse(pets, this.favoritesService.getFavoritePets());
 		}));
 	}
 

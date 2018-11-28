@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Favorites
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let pet of favoritePets; let i = index">
+      <ion-thumbnail item-start [ngStyle]="{'background-image': 'url(' + pet.thumbnail + ')'}">
+
+      </ion-thumbnail>
+      <h2>{{ pet.name }}</h2>
+      <h5>{{ pet.breed }}</h5>
+      <p>{{ pet.location }}</p>
+      <p [innerHTML]="pet.tagLine"></p>
+      <ion-icon item-end name="arrow-forward" color="gray" class="arrow"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

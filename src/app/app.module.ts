@@ -8,9 +8,9 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+import { FavoritePetsPage } from '../pages/favorite-pets/favorite-pets';
 import { HomePage } from '../pages/home/home';
-import { PetPage } from '../pages/pets/pets';
+import { PetListPage } from '../pages/pet-list/pet-list';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -18,19 +18,19 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LocationService } from '../services/location.service';
 import { PetFinderService } from '../services/pet-finder.service';
-
 import { BreedSearchPage } from '../pages/partials/breed-search/breed-search';
 import { FilterService } from '../services/filter.service';
+import { FavoritesService } from '../services/favorites.service';
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
+    FavoritePetsPage,
     HomePage,
     TabsPage,
     BreedSearchPage,
-    PetPage,
+    PetListPage,
   ],
   imports: [
     HttpClientModule,
@@ -44,11 +44,11 @@ import { FilterService } from '../services/filter.service';
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
+    FavoritePetsPage,
     HomePage,
     TabsPage,
     BreedSearchPage,
-    PetPage
+    PetListPage
   ],
   providers: [
     PetFinderService,
@@ -57,6 +57,7 @@ import { FilterService } from '../services/filter.service';
     SplashScreen,
     FilterService,
     Geolocation,
+    FavoritesService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })

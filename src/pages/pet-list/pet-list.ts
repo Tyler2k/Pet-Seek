@@ -1,25 +1,27 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Platform, NavParams, ViewController } from "ionic-angular";
-import { PetQueryRequest } from "../../models/pets.model";
+import { PetQueryRequest, PetModel } from "../../models/pets.model";
 import { PetFinderService } from "../../services/pet-finder.service";
-import { Storage } from '@ionic/storage';
+import { FavoritesService } from "../../services/favorites.service";
+import { Subscription } from "rxjs";
 
 @Component({
-    selector: 'pets',
-    templateUrl: 'pets.html'
+    selector: 'pet-list',
+    templateUrl: 'pet-list.html'
 })
 
-export class PetPage implements OnInit {
+export class PetListPage implements OnInit, OnDestroy {
     constructor(
         public platform: Platform,
         public params: NavParams,
         public viewCtrl: ViewController,
         private petFinderService: PetFinderService,
-        private storage: Storage,
+        private favoritesService: FavoritesService,
     ) {
-
+        this.onUpdateFavoritePetsSubscription = this.favoritesService.onUpdateFavoritePets().subscribe(pet => { this.favoritePets = pet; });
     }
 
+    onUpdateFavoritePetsSubscription: Subscription;
     pets = [];
     favoritePets = [];
     loading: boolean = false;
@@ -42,6 +44,7 @@ export class PetPage implements OnInit {
                 this.petRequest.offset = petList.lastOffset;
                 if (infiniteScroll) { infiniteScroll.complete(); }
                 this.loading = false;
+                console.log(this.pets)
             },
             e => {
                 console.log(e);
@@ -51,8 +54,25 @@ export class PetPage implements OnInit {
         )
     }
 
-    favoritePet(pet) {
-        this.favoritePets.push(pet);
-        this.storage.set('favoritePets', this.favoritePets);
+    checkIfPetIsFavorited(id: string) {
+        this.favoritePets.find(pet => {
+            return pet.id == id;
+        })
     }
+
+    favoritePet(pet: PetModel) {
+        pet.isFavorite = true;
+        this.favoritesService.addPetToFavorites(pet);        
+    }
+
+    unFavoritePet(pet: PetModel) {
+        pet.isFavorite = false;
+        this.favoritesService.removePetFromFavorites(pet);        
+    }
+
+    ngOnDestroy() {
+        if (this.onUpdateFavoritePetsSubscription) {
+          this.onUpdateFavoritePetsSubscription.unsubscribe();
+        }
+      }
 }

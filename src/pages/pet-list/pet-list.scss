@@ -16,8 +16,40 @@
 }
 
 div.swiper-container {
-    overflow: visible;
+  overflow: visible;
+
   div.swiper-pagination.swiper-pagination-bullets {
     bottom: -20px;
+  }
+}
+
+.heart-icon {
+  font-size: 35px;
+  float: right;
+  margin-bottom: 10px; 
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-duration: 1.4s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    @include transform(scale(1.0));
+  }
+  25% {
+    @include transform(scale(1.2));
+  }
+  50% {
+    @include transform(scale(1.0));
+  }
+  75% {
+    @include transform(scale(1.2));
+  }
+  100% {
+    @include transform(scale(1.0));
   }
 }

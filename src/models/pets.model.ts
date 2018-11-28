@@ -3,7 +3,7 @@ import { AfterViewChecked } from '@angular/core';
 export class PetModel {
 	age: string;
 	animal: string;
-	breeds: string;
+	breed: string;
 	contact: ContactInfo;
 	description: string;
 	id: string;
@@ -20,17 +20,19 @@ export class PetModel {
 	size: string;
 	status: string;
 	location: string;
+	thumbnail: string;
+	isFavorite: boolean;
 
-	constructor(pet) {
+	constructor(pet, favorites) {
 		this.age = pet.age['$t'];
 		this.animal = pet.animal['$t'];
-		this.breeds = pet.breeds.breed['$t'];
+		this.breed = this.getBreed(pet.breeds.breed);
 		this.contact = new ContactInfo(pet.contact);
 		this.description = pet.description['$t'];
 		this.id = pet.id['$t'];
 		this.lastUpdate = pet.lastUpdate['$t'];
-		this.photos = pet.media.photos ? this.getFeaturedPhoto(pet.media.photos.photo) : null;
-		//this.featuredPhoto = pet.media.photos ? this.getFeaturedPhoto(pet.media.photos.photo) : null;
+		this.photos = pet.media.photos ? this.getPhotos(pet.media.photos.photo) : null;
+		this.thumbnail = pet.media.photos ? this.getThumbnailPhoto(pet.media.photos.photo) : null;
 		this.mix = pet.mix['$t'];
 		this.name = pet.name['$t'];
 		this.options = pet.options.option ? this.formatArray(pet.options.option) : null;
@@ -39,19 +41,21 @@ export class PetModel {
 		this.shelterPetId = pet.shelterPetId['$t'];
 		this.size = this.getSize(pet.size['$t']);
 		this.status = this.getStatus(pet.status['$t']);
-		this.tagLine = this.formatTagline(this.age, this.breeds, this.sex);
+		this.tagLine = this.formatTagline([this.sex, this.age, this.size]);
 		this.location = this.formatLocation(this.contact);
+		this.isFavorite = this.isPetFavorited(this.id, favorites);
 	}
 
-	private formatTagline(age: string = null, breeds: string = null, sex: string = null) {
-		let tagLine = "";
-		if (age) {
-			tagLine += age;
-		}
-		if (sex) {
-			tagLine ? tagLine += " - " + sex : tagLine += sex;
-		}
-		return tagLine;
+	private isPetFavorited(petId: string, favorites) {
+		return favorites.find(pet => {
+			return pet.id == petId;
+		})
+	}
+
+	private formatTagline(arr) {
+		return arr.map(r => {
+			return r;
+		}).join(' &middot; ');
 	}
 
 	private getGender(genderId: string) {
@@ -89,18 +93,16 @@ export class PetModel {
 		}
 	}
 
-	private formatArray(items, photos: boolean = false) {
-		if (!items.length && photos) {
-			items = new PetMedia(items)
-		} else {
-			for (let i = 0; i < items.length; i++) {
-				photos ? items[i] = new PetMedia(items[i]) : items[i] = items[i]['$t'];
-			}
+	private formatArray(items) {
+		let arr = [];
+		arr = arr.concat(items)
+		for (let i = 0; i < arr.length; i++) {
+			arr[i] = arr[i]['$t'];
 		}
-		return items;
+		return arr;
 	}
 
-	private getFeaturedPhoto(photos: PetMedia[]) {
+	private getPhotos(photos: PetMedia[]) {
 		let slidePhotos = [];
 		for (let p of photos) {
 			let photo = new PetMedia(p);
@@ -109,6 +111,23 @@ export class PetModel {
 			}
 		}
 		return slidePhotos;
+	}
+
+	private getThumbnailPhoto(photos: PetMedia[]) {
+		for (let p of photos) {
+			let photo = new PetMedia(p);
+			if (photo.size == 'fpm') {
+				return photo.url;
+			}
+		}
+	}
+
+	private getBreed(breeds: any) {
+		let arr = [];
+		arr = arr.concat(breeds)
+		return arr.map(r => {
+			return r['$t'];
+		}).join(' / ');
 	}
 
 	private formatLocation(contact: ContactInfo) {
@@ -120,14 +139,14 @@ export class PetQueryResponse {
 	lastOffset: string;
 	pets: PetModel[];
 
-	constructor(response) {
+	constructor(response, favorites: any) {
 		this.lastOffset = response.petfinder.lastOffset['$t'];
-		this.pets = this.formatPets(response.petfinder.pets.pet);
+		this.pets = this.formatPets(response.petfinder.pets.pet, favorites);
 	}
 
-	private formatPets(pets: PetModel[]) {
+	private formatPets(pets: PetModel[], favorites: any) {
 		for (let i = 0; i < pets.length; i++) {
-			pets[i] = new PetModel(pets[i]);
+			pets[i] = new PetModel(pets[i], favorites);
 		}
 		return pets;
 	}
