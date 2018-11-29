@@ -9,9 +9,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AboutPage } from '../pages/about/about';
 import { FavoritePetsPage } from '../pages/favorite-pets/favorite-pets';
-import { HomePage } from '../pages/home/home';
+import { SearchFiltersPage } from '../pages/search-filters/search-filters';
 import { PetListPage } from '../pages/pet-list/pet-list';
-import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,8 +26,7 @@ import { FavoritesService } from '../services/favorites.service';
     MyApp,
     AboutPage,
     FavoritePetsPage,
-    HomePage,
-    TabsPage,
+    SearchFiltersPage,
     BreedSearchPage,
     PetListPage,
   ],
@@ -45,8 +43,7 @@ import { FavoritesService } from '../services/favorites.service';
     MyApp,
     AboutPage,
     FavoritePetsPage,
-    HomePage,
-    TabsPage,
+    SearchFiltersPage,
     BreedSearchPage,
     PetListPage
   ],

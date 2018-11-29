@@ -1,22 +1,41 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Favorites
-    </ion-title>
-  </ion-navbar>
+
+  <ion-toolbar color="primary" no-border-top>
+    <ion-buttons start>
+      <button ion-button icon-only navPop>
+        <ion-icon id="back-arrow" name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Pet Seek</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToRootPage()">
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let pet of favoritePets; let i = index">
-      <ion-thumbnail item-start [ngStyle]="{'background-image': 'url(' + pet.thumbnail + ')'}">
+    <ion-item-sliding *ngFor="let pet of favoritePets; let i = index">
+      <ion-item>
+        <ion-thumbnail item-start [ngStyle]="{'background-image': 'url(' + pet.thumbnail + ')'}">
 
-      </ion-thumbnail>
-      <h2>{{ pet.name }}</h2>
-      <h5>{{ pet.breed }}</h5>
-      <p>{{ pet.location }}</p>
-      <p [innerHTML]="pet.tagLine"></p>
-      <ion-icon item-end name="arrow-forward" color="gray" class="arrow"></ion-icon>
-    </ion-item>
+        </ion-thumbnail>
+        <h2>{{ pet.name }}</h2>
+        <h5>{{ pet.breed }}</h5>
+        <p>{{ pet.location }}</p>
+        <p [innerHTML]="pet.tagLine"></p>
+        <ion-icon item-end name="arrow-forward" color="gray" class="arrow"></ion-icon>
+      </ion-item>
+
+      <ion-item-options side="left">
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

@@ -1,7 +1,14 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+
+  <ion-toolbar color="primary" no-border-top>
+    <ion-title>Pet Seek</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only icon-end [navPush]="favoritesPage">
+        <ion-icon name="heart-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
 </ion-header>
 
 
@@ -9,9 +16,13 @@
 
   <ion-item-group>
 
+    <!-- Map -->
+    <div #map id="map"></div>
+
     <!-- Search Bar -->
     <ion-toolbar color="light">
-      <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" (ionClear)="onClearLocation($event)" placeholder="Search Locations">
+      <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" (ionClear)="onClearLocation($event)"
+        placeholder="Search Locations">
       </ion-searchbar>
       <ion-buttons end>
         <button ion-button icon-only tappable (click)="getCurrentLocation()">
@@ -40,5 +51,5 @@
     <ion-item *ngFor="let item of filter.items" [@expand]="filter.active" (click)="updateFilter(filter, item);">{{item.name}}</ion-item>
   </ion-item-group>
   <button (click)="searchPets(petRequest)">search</button>
-
+<button (click)="removePreviousMapMarkers()">remove marker</button>
 </ion-content>

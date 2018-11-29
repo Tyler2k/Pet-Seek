@@ -29,27 +29,57 @@ div.swiper-container {
   margin-bottom: 10px; 
 }
 
-.pulse {
-  animation-name: pulse;
-  animation-duration: 1.4s;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in-out;
+.heart-nav {
+  position: relative;
+  z-index: 1;
 }
 
+ion-list {
+  margin-top: 12px !important;
+}
+
+.pulse {
+  z-index: 0;
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: 50%;
+  @include transform(translate(-50%, -50%));
+  &:before,
+  &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #fff 0%, #ffb3cc 100%);
+      border-radius: 100%;
+      opacity: 0;
+  }
+  &:before {
+      transform: scale(1);
+      -webkit-animation: pulse 1.5s 1 linear;
+      animation: pulse 1.5s 1 linear;
+  }
+  // &:after {
+  //     animation: pulse 1.5s 0.8s 1 linear;
+  // }
+}
 @keyframes pulse {
   0% {
-    @include transform(scale(1.0));
+      transform: scale(0.6);
+      opacity: 0;
   }
-  25% {
-    @include transform(scale(1.2));
-  }
-  50% {
-    @include transform(scale(1.0));
-  }
-  75% {
-    @include transform(scale(1.2));
+  33% {
+      transform: scale(1);
+      opacity: 1;
   }
   100% {
-    @include transform(scale(1.0));
+      transform: scale(1.4);
+      opacity: 0;
   }
 }

@@ -25,4 +25,8 @@ export class FavoritePetsPage implements OnDestroy {
     }
   }
 
+  goToRootPage() {
+    this.navCtrl.popToRoot();
+  }
+
 }

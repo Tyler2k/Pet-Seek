@@ -1,3 +1,22 @@
+<ion-header>
+
+  <ion-toolbar color="primary" no-border-top>
+    <ion-buttons start>
+      <button ion-button icon-only navPop>
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Pet Seek</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only icon-end [navPush]="favoritesPage">
+        <ion-icon name="heart-outline" class="heart-nav"></ion-icon>
+        <div #pulseElem></div>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
 <ion-content>
   <ion-list [virtualScroll]="pets" approxItemHeight="360px">
     <ion-card *virtualItem="let pet;">
@@ -16,8 +35,8 @@
         <p>
           {{ pet.breed }}
         </p>
-          <ion-icon class="heart-icon" *ngIf="!pet.isFavorite" name="heart-outline" color="pink" (click)="favoritePet(pet);"></ion-icon>
-          <ion-icon class="heart-icon" *ngIf="pet.isFavorite" name="heart" color="pink" (click)="unFavoritePet(pet);"></ion-icon>
+        <ion-icon class="heart-icon" *ngIf="!pet.isFavorite" name="heart-outline" color="pink" (click)="favoritePet(pet);"></ion-icon>
+        <ion-icon class="heart-icon" *ngIf="pet.isFavorite" name="heart" color="pink" (click)="unFavoritePet(pet);"></ion-icon>
 
       </ion-card-content>
 

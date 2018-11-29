@@ -6,10 +6,14 @@ import { PetModel, PetQueryRequest } from '../../models/pets.model';
 import { BreedSearchPage } from '../partials/breed-search/breed-search';
 import { FilterService } from '../../services/filter.service';
 import { PetListPage } from '../pet-list/pet-list';
+import { FavoritePetsPage } from '../favorite-pets/favorite-pets';
+import { LatLng } from '../../models/location.model';
+
+declare var google;
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'search-filters',
+  templateUrl: 'search-filters.html',
   styles: [
     `
     .item-block{
@@ -28,9 +32,7 @@ import { PetListPage } from '../pet-list/pet-list';
   ]
 })
 
-export class HomePage implements OnInit {
-
-  @ViewChild('map') mapElement: ElementRef;
+export class SearchFiltersPage {
 
   constructor(
     public navCtrl: NavController,
@@ -44,7 +46,12 @@ export class HomePage implements OnInit {
 
     this.autocomplete = { input: '' };
     this.locationPredictions = [];
+
+    this.favoritesPage = FavoritePetsPage;
   }
+
+  @ViewChild('map') mapElement: ElementRef;
+  map: any;
 
   pets: PetModel[];
   breedFilter;
@@ -55,11 +62,47 @@ export class HomePage implements OnInit {
   filters;
   autocomplete;
   locationPredictions;
+  favoritesPage: any;
+  latLng;
+  geocoder;
+  marker;
 
-  ngOnInit() {
+  ionViewDidLoad() {
     this.locationService.getGeneralLocationFromIp().subscribe(r => {
-      console.log(r)
+      this.petRequest.location = r.cityState;
+      this.autocomplete.input = r.cityState;
+      this.latLng = r.latLng;
+      this.geocoder = new google.maps.Geocoder();
+      this.loadMap(this.latLng);
     })
+  }
+
+  loadMap(latLng: LatLng) {
+
+    let mapOptions = {
+      center: latLng,
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      draggable: false,
+    }
+
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.addMapMarker(latLng);
+  }
+
+  addMapMarker(latLng: any) {
+
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: latLng
+    });
+
+    this.map.panTo(this.marker.getPosition());
+  }
+
+  removePreviousMapMarkers() {
+    this.marker.setMap(null);
   }
 
   updateSearchResults() {
@@ -86,6 +129,17 @@ export class HomePage implements OnInit {
     this.locationPredictions = [];
     this.autocomplete.input = location;
     this.petRequest.location = location;
+    this.geocodeAddress(this.geocoder, location);
+  }
+
+  geocodeAddress(geocoder, location) {
+    geocoder.geocode({ 'address': location }, ((results, status) => {
+      if (status === 'OK') {
+        this.addMapMarker(results[0].geometry.location);
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    }));
   }
 
   updateFilter(filter, selectedItem) {
