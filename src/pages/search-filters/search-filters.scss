@@ -3,7 +3,7 @@
 }
 
 ion-item-group {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid lightgray;
 }
 
 #map {
@@ -26,9 +26,33 @@ ion-item-group {
 ion-item-divider.item-divider {
   padding-right: 0px;
   padding-left: 14px;
+  background: #fff;
+
+  ion-note {
+    color: #4da9ff;
+  }
 }
 
 ion-searchbar.searchbar .searchbar-input-container input.searchbar-input {
   background: #fff;
   font-size: 16px;
+}
+
+#search-bar .toolbar-background {
+  background: #f8f8f8 !important;
+}
+
+ion-toolbar {
+  border-top: 1px solid gray;
+
+  .searchbar-input-container {
+    border: 1px solid gray;
+    border-radius: 4px;
+  }
+}
+
+.search-button {
+  margin: 10px auto;
+  display: block;
+  height: 2em;
 }

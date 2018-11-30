@@ -1,5 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,6 +20,7 @@ import { PetFinderService } from '../services/pet-finder.service';
 import { BreedSearchPage } from '../pages/partials/breed-search/breed-search';
 import { FilterService } from '../services/filter.service';
 import { FavoritesService } from '../services/favorites.service';
+import { ServerStateService } from '../services/server-state.service';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { FavoritesService } from '../services/favorites.service';
   ],
   imports: [
     HttpClientModule,
+    BrowserTransferStateModule,
     HttpClientJsonpModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -53,6 +55,7 @@ import { FavoritesService } from '../services/favorites.service';
     StatusBar,
     SplashScreen,
     FilterService,
+    ServerStateService,
     Geolocation,
     FavoritesService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -35,7 +35,8 @@ export class PetListPage implements OnInit, OnDestroy {
     favoritesPage: any;
 
     ngOnInit() {
-        this.petRequest = this.params.get('petRequest');
+        console.log(this.params.get('petRequest'))
+        this.petRequest = Object.assign({},this.params.get('petRequest'));
         this.queryPets(this.petRequest);
     }
 
@@ -45,7 +46,7 @@ export class PetListPage implements OnInit, OnDestroy {
 
     queryPets(petRequest: PetQueryRequest, infiniteScroll?) {
         this.loading = true;
-        this.petFinderService.queryPets(petRequest).subscribe(
+        this.petFinderService.queryPets(petRequest, true).subscribe(
             petList => {
                 this.pets = this.pets.concat(petList.pets);
                 this.petRequest.offset = petList.lastOffset;

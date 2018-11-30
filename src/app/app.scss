@@ -21,7 +21,6 @@
     font-family: Libre Franklin, sans-serif;
 }
 
-
 @mixin box-shadow($shadow1, $shadow2: null) {
     -webkit-box-shadow: $shadow1, $shadow2;
     -moz-box-shadow: $shadow1, $shadow2;
@@ -61,5 +60,9 @@
     -ms-transform: rotate($rotate);
     -moz-transform: rotate($rotate);
     transform: rotate($rotate);
+}
+
+ion-content {
+    background-color: #f8f8f8 !important;
 }
 

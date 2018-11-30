@@ -180,6 +180,7 @@ export class BreedListResponse {
 	constructor(response) {
 		let breedList = response.petfinder.breeds.breed;
 		this.breeds = breedList.map(obj => obj['$t']);
+		this.breeds.unshift('Any');
 	}
 }
 

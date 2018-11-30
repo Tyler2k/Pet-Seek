@@ -63,46 +63,31 @@ export class SearchFiltersPage {
   autocomplete;
   locationPredictions;
   favoritesPage: any;
-  latLng;
   geocoder;
-  marker;
+
+  // to do
+  // - more map options
 
   ionViewDidLoad() {
     this.locationService.getGeneralLocationFromIp().subscribe(r => {
       this.petRequest.location = r.cityState;
       this.autocomplete.input = r.cityState;
-      this.latLng = r.latLng;
       this.geocoder = new google.maps.Geocoder();
-      this.loadMap(this.latLng);
+      this.geocodeAddress(this.geocoder, r.cityState);
+      this.loadMap();
     })
   }
 
-  loadMap(latLng: LatLng) {
+  loadMap() {
 
     let mapOptions = {
-      center: latLng,
       zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       draggable: false,
+      disableDefaultUI: true,
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.addMapMarker(latLng);
-  }
-
-  addMapMarker(latLng: any) {
-
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: latLng
-    });
-
-    this.map.panTo(this.marker.getPosition());
-  }
-
-  removePreviousMapMarkers() {
-    this.marker.setMap(null);
   }
 
   updateSearchResults() {
@@ -134,8 +119,9 @@ export class SearchFiltersPage {
 
   geocodeAddress(geocoder, location) {
     geocoder.geocode({ 'address': location }, ((results, status) => {
+      this.map.panTo(results[0].geometry.location);
       if (status === 'OK') {
-        this.addMapMarker(results[0].geometry.location);
+        this.map.panTo(results[0].geometry.location);
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
       }
@@ -176,9 +162,9 @@ export class SearchFiltersPage {
   }
 
   getBreedList(animal: string) {
-    this.petFinderService.getBreedList(animal).subscribe(
+    this.petFinderService.getBreedList(animal, true).subscribe(
       response => {
-        response.breeds.unshift('Any');
+        //
         this.breeds = response.breeds;
       }
     )

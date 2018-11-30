@@ -20,13 +20,13 @@
     <div #map id="map"></div>
 
     <!-- Search Bar -->
-    <ion-toolbar color="light">
+    <ion-toolbar id="search-bar" color="light" border-top>
       <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" (ionClear)="onClearLocation($event)"
         placeholder="Search Locations">
       </ion-searchbar>
       <ion-buttons end>
         <button ion-button icon-only tappable (click)="getCurrentLocation()">
-          <ion-icon name="pin" color="primary"></ion-icon>
+          <ion-icon name="pin" color="red"></ion-icon>
         </button>
       </ion-buttons>
     </ion-toolbar>
@@ -50,6 +50,6 @@
     </ion-item-divider>
     <ion-item *ngFor="let item of filter.items" [@expand]="filter.active" (click)="updateFilter(filter, item);">{{item.name}}</ion-item>
   </ion-item-group>
-  <button (click)="searchPets(petRequest)">search</button>
-<button (click)="removePreviousMapMarkers()">remove marker</button>
+  <button class="search-button" ion-button medium color="primary" (click)="searchPets(petRequest)">Search Pets</button>
+
 </ion-content>
