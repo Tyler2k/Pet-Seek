@@ -64,10 +64,10 @@ export class FilterService {
             currentItem: 'Any',
             items: [
                 { name: 'Any', id: '' },
-                { name: 'Baby', id: 'S' },
-                { name: 'Young', id: 'M' },
-                { name: 'Adult', id: 'L' },
-                { name: 'Senior', id: 'XL' }
+                { name: 'Baby', id: 'Baby' },
+                { name: 'Young', id: 'Young' },
+                { name: 'Adult', id: 'Adult' },
+                { name: 'Senior', id: 'Senior' }
             ],          
         }
     ]

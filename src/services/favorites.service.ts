@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import { ReplaySubject, Observable } from "rxjs";
-import { PetModel } from "../models/pets.model";
+import { PetModel } from "../models/pet.model";
 
 @Injectable()
 
@@ -18,7 +18,7 @@ export class FavoritesService {
         });
     }
 
-    private onUpdateFavoritePetsSubject = new ReplaySubject<any>();
+    private onUpdateFavoritePetsSubject = new ReplaySubject<any>(1);
     private static favoritePets: any[] = [];
 
     onUpdateFavoritePets(): Observable<any> {

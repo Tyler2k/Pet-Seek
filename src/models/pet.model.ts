@@ -1,5 +1,3 @@
-import { AfterViewChecked } from '@angular/core';
-
 export class PetModel {
 	age: string;
 	animal: string;
@@ -13,7 +11,7 @@ export class PetModel {
 	tagLine: string;
 	mix: string;
 	name: string;
-	options: string[];
+	moreInfo: string[];
 	sex: string;
 	shelterId: string;
 	shelterPetId: string;
@@ -22,8 +20,9 @@ export class PetModel {
 	location: string;
 	thumbnail: string;
 	isFavorite: boolean;
+	dislikes: string;
 
-	constructor(pet, favorites) {
+	constructor(pet: any, favorites: PetModel[]) {
 		this.age = pet.age['$t'];
 		this.animal = pet.animal['$t'];
 		this.breed = this.getBreed(pet.breeds.breed);
@@ -35,7 +34,6 @@ export class PetModel {
 		this.thumbnail = pet.media.photos ? this.getThumbnailPhoto(pet.media.photos.photo) : null;
 		this.mix = pet.mix['$t'];
 		this.name = pet.name['$t'];
-		this.options = pet.options.option ? this.formatArray(pet.options.option) : null;
 		this.sex = this.getGender(pet.sex['$t']);
 		this.shelterId = pet.shelterId['$t'];
 		this.shelterPetId = pet.shelterPetId['$t'];
@@ -44,15 +42,18 @@ export class PetModel {
 		this.tagLine = this.formatTagline([this.sex, this.age, this.size]);
 		this.location = this.formatLocation(this.contact);
 		this.isFavorite = this.isPetFavorited(this.id, favorites);
+		if (pet.options.option) {
+			this.translateOptions(pet.options.option, this.sex)
+		}
 	}
 
-	private isPetFavorited(petId: string, favorites) {
+	private isPetFavorited(petId: string, favorites: any[]) {
 		return favorites.find(pet => {
 			return pet.id == petId;
 		})
 	}
 
-	private formatTagline(arr) {
+	private formatTagline(arr: string[]) {
 		return arr.map(r => {
 			return r;
 		}).join(' &middot; ');
@@ -60,46 +61,81 @@ export class PetModel {
 
 	private getGender(genderId: string) {
 		switch (genderId) {
-			case "M":
-				return "Male";
-			case "F":
-				return "Female";
+			case 'M':
+				return 'Male';
+			case 'F':
+				return 'Female';
 		}
 	}
 
 	private getSize(sizeId: string) {
 		switch (sizeId) {
-			case "S":
-				return "Small";
-			case "M":
-				return "Medium";
-			case "L":
-				return "Large";
-			case "XL":
-				return "Extra Large";
+			case 'S':
+				return 'Small';
+			case 'M':
+				return 'Medium';
+			case 'L':
+				return 'Large';
+			case 'XL':
+				return 'Extra Large';
 		}
 	}
 
 	private getStatus(statusId: string) {
 		switch (statusId) {
-			case "A":
-				return "Adoptable";
-			case "H":
-				return "Hold";
-			case "P":
-				return "Pending";
-			case "X":
-				return "Adopted";
+			case 'A':
+				return 'Adoptable';
+			case 'H':
+				return 'Hold';
+			case 'P':
+				return 'Pending';
+			case 'X':
+				return 'Adopted';
 		}
 	}
 
-	private formatArray(items) {
-		let arr = [];
-		arr = arr.concat(items)
-		for (let i = 0; i < arr.length; i++) {
-			arr[i] = arr[i]['$t'];
+	private translateOptions(items: any, sex: string = null) {
+		let moreInfoItems = [];
+		let dislikeItems = [];
+
+		if (!items.length) {
+			translate(items['$t'], sex);
+		} else {
+			items.forEach(i => {
+				translate(i['$t'], sex);
+			});
 		}
-		return arr;
+
+		this.moreInfo = moreInfoItems;
+		this.dislikes = dislikeItems.join(', ');
+
+		function translate(value: string, sex: string = null) {
+			switch (value) {
+				case ('altered'):
+					moreInfoItems.push(sex == 'Female' ? 'Spayed' : 'Neutered');
+					break;
+				case ('hasShots'):
+					moreInfoItems.push('Shots Current');
+					break;
+				case ('housetrained'):
+					moreInfoItems.push('House Trained');
+					break;
+				case ('specialNeeds'):
+					moreInfoItems.push('Special Needs');
+					break;
+				case ('noCats'):
+					dislikeItems.push('Cats');
+					break;
+				case ('noDogs'):
+					dislikeItems.push('Dogs');
+					break;
+				case ('noKids'):
+					dislikeItems.push('Kids');
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	private getPhotos(photos: PetMedia[]) {
@@ -131,7 +167,7 @@ export class PetModel {
 	}
 
 	private formatLocation(contact: ContactInfo) {
-		return contact.city + ", " + contact.state;
+		return contact.city + ', ' + contact.state;
 	}
 }
 
@@ -139,7 +175,7 @@ export class PetQueryResponse {
 	lastOffset: string;
 	pets: PetModel[];
 
-	constructor(response, favorites: any) {
+	constructor(response: any, favorites: any) {
 		this.lastOffset = response.petfinder.lastOffset['$t'];
 		this.pets = this.formatPets(response.petfinder.pets.pet, favorites);
 	}
@@ -177,7 +213,7 @@ export class PetQueryRequest {
 export class BreedListResponse {
 	breeds: string[];
 
-	constructor(response) {
+	constructor(response: any) {
 		let breedList = response.petfinder.breeds.breed;
 		this.breeds = breedList.map(obj => obj['$t']);
 		this.breeds.unshift('Any');

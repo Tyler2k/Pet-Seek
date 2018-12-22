@@ -7,17 +7,17 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { AboutPage } from '../pages/about/about';
 import { FavoritePetsPage } from '../pages/favorite-pets/favorite-pets';
-import { SearchFiltersPage } from '../pages/search-filters/search-filters';
+import { PetSearchPage } from '../pages/pet-search/pet-search';
 import { PetListPage } from '../pages/pet-list/pet-list';
+import { BreedSearchPage } from '../pages/breed-search/breed-search';
+import { PetDetailPage } from '../pages/pet-detail/pet-detail';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LocationService } from '../services/location.service';
 import { PetFinderService } from '../services/pet-finder.service';
-import { BreedSearchPage } from '../pages/partials/breed-search/breed-search';
 import { FilterService } from '../services/filter.service';
 import { FavoritesService } from '../services/favorites.service';
 import { ServerStateService } from '../services/server-state.service';
@@ -25,11 +25,11 @@ import { ServerStateService } from '../services/server-state.service';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     FavoritePetsPage,
-    SearchFiltersPage,
+    PetSearchPage,
     BreedSearchPage,
     PetListPage,
+    PetDetailPage
   ],
   imports: [
     HttpClientModule,
@@ -43,11 +43,11 @@ import { ServerStateService } from '../services/server-state.service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
     FavoritePetsPage,
-    SearchFiltersPage,
+    PetSearchPage,
     BreedSearchPage,
-    PetListPage
+    PetListPage,
+    PetDetailPage
   ],
   providers: [
     PetFinderService,
@@ -58,7 +58,7 @@ import { ServerStateService } from '../services/server-state.service';
     ServerStateService,
     Geolocation,
     FavoritesService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

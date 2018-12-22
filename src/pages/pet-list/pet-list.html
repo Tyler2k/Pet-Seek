@@ -18,32 +18,26 @@
 </ion-header>
 
 <ion-content>
-  <ion-list [virtualScroll]="pets" approxItemHeight="360px">
+  <ion-list [virtualScroll]="pets" approxItemHeight="426px">
     <ion-card *virtualItem="let pet;">
-      <ion-slides pager>
-        <ion-slide *ngFor="let photo of pet.photos" class="pet-image">
-          <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></ion-img>
-        </ion-slide>
-      </ion-slides>
-      <ion-card-content>
+      <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + pet.photos[0] + ')'}" (tap)="showPetDetailPage(pet)"></ion-img>
+      <ion-card-content (tap)="showPetDetailPage(pet)">
         <ion-card-title>
           {{ pet.name }}
         </ion-card-title>
-        <p>
-          {{ pet.tagLine }}
-        </p>
-        <p>
+        <p [innerHTML]="pet.tagLine"></p>
+        <p class="breed">
           {{ pet.breed }}
         </p>
-        <ion-icon class="heart-icon" *ngIf="!pet.isFavorite" name="heart-outline" color="pink" (click)="favoritePet(pet);"></ion-icon>
-        <ion-icon class="heart-icon" *ngIf="pet.isFavorite" name="heart" color="pink" (click)="unFavoritePet(pet);"></ion-icon>
-
       </ion-card-content>
+
+      <ion-icon class="heart-icon" *ngIf="!pet.isFavorite" name="heart-outline" color="pink" (tap)="favoritePet(pet);"></ion-icon>
+      <ion-icon class="heart-icon" *ngIf="pet.isFavorite" name="heart" color="pink" (tap)="unFavoritePet(pet);"></ion-icon>
 
     </ion-card>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="1000px">
+  <ion-infinite-scroll (ionInfinite)="getMoreInfiniteScrollElements($event)" threshold="1000px">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

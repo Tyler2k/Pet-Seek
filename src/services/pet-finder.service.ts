@@ -1,4 +1,4 @@
-import { PetQueryResponse, PetQueryRequest, BreedListResponse } from './../models/pets.model';
+import { PetQueryResponse, PetQueryRequest, BreedListResponse } from './../models/pet.model';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -32,7 +32,7 @@ export class PetFinderService {
 	getSinglePet() {
 		return this.http.jsonp(PetFinderService.petFinderUrl + 'pet.get?format=json&key=fa55926ac35934c7a9cba7c6d287c446&id=40861841', 'callback');
 	}
-
+	// 4 options 41357149
 	queryPets(request: PetQueryRequest, useState: boolean = false): Observable<PetQueryResponse> {
 		let currentState = this.serverStateService.getServerState(this.pet_list_state_key);
 		let hashedKey = 'pet-list-' + this.serverStateService.hashString(JSON.stringify(request));

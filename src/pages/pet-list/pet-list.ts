@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ApplicationRef, ViewChild, ElementRef } from "@angular/core";
 import { Platform, NavParams, ViewController, NavController } from "ionic-angular";
-import { PetQueryRequest, PetModel } from "../../models/pets.model";
+import { PetQueryRequest, PetModel } from "../../models/pet.model";
 import { PetFinderService } from "../../services/pet-finder.service";
 import { FavoritesService } from "../../services/favorites.service";
 import { Subscription } from "rxjs";
 import { FavoritePetsPage } from "../favorite-pets/favorite-pets";
+import { PetDetailPage } from "../pet-detail/pet-detail";
 
 @Component({
     selector: 'pet-list',
@@ -36,11 +37,11 @@ export class PetListPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log(this.params.get('petRequest'))
-        this.petRequest = Object.assign({},this.params.get('petRequest'));
+        this.petRequest = Object.assign({}, this.params.get('petRequest'));
         this.queryPets(this.petRequest);
     }
 
-    doInfinite(event) {
+    getMoreInfiniteScrollElements(event) {
         this.queryPets(this.petRequest, event);
     }
 
@@ -62,6 +63,10 @@ export class PetListPage implements OnInit, OnDestroy {
         )
     }
 
+    showPetDetailPage(pet: PetModel) {
+        this.navCtrl.push(PetDetailPage, { pet: pet });
+    }
+
     checkIfPetIsFavorited(id: string) {
         this.favoritePets.find(pet => {
             return pet.id == id;
@@ -69,19 +74,22 @@ export class PetListPage implements OnInit, OnDestroy {
     }
 
     favoritePet(pet: PetModel) {
-        this.pulseElem.nativeElement.classList.add('pulse');
-        setTimeout(() => {
-            this.pulseElem.nativeElement.classList.remove('pulse');
-        }, 2600);
+        if (this.pulseElem) {
+            this.pulseElem.nativeElement.classList.add('pulse');
+            setTimeout(() => {
+                this.pulseElem.nativeElement.classList.remove('pulse');
+            }, 2600);
+        }
         pet.isFavorite = true;
         this.favoritesService.addPetToFavorites(pet);
-        this.applicationRef.tick();
+        this.applicationRef.tick();        
     }
 
     unFavoritePet(pet: PetModel) {
         pet.isFavorite = false;
         this.favoritesService.removePetFromFavorites(pet);
         this.applicationRef.tick();
+        //event.stopPropagation();   
     }
 
     ngOnDestroy() {

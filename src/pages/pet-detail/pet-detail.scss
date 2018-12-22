@@ -1,0 +1,26 @@
+pet-detail {
+  .pet-image {
+    position: relative;
+    margin: 0 auto;
+    height: 270px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+
+  ion-slides {
+    max-height: 270px;
+  }
+
+  .pet-description {
+    white-space: pre-wrap;
+  }
+}

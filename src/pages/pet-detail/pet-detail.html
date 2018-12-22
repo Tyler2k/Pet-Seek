@@ -1,0 +1,53 @@
+<ion-header>
+
+  <ion-toolbar color="primary" no-border-top>
+    <ion-buttons start>
+      <button ion-button icon-only navPop>
+        <ion-icon id="back-arrow" name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Pet Seek</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (tap)="goToRootPage()">
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-slides [pager]="pet.photos.length > 1 ? true : false">
+    <ion-slide *ngFor="let photo of pet?.photos" class="pet-image">
+      <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></ion-img>
+    </ion-slide>
+  </ion-slides>
+  <ion-list>
+    <ion-card *ngIf="pet.description">
+      <ion-card-content>
+        <ion-card-title>
+          About {{ pet.name }}
+        </ion-card-title>
+        <p class="pet-description" [innerHTML]="pet.description"></p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item-group>
+          <ion-item-divider color="light">
+            {{ pet.name }}
+          </ion-item-divider>
+          <ion-item-divider color="light" [innerHTML]="pet.tagLine"></ion-item-divider>
+          <ion-item-divider color="light">
+            {{ pet.breed }}
+          </ion-item-divider>
+        </ion-item-group>
+      </ion-card-content>
+
+      <!-- <ion-icon class="heart-icon" *ngIf="!pet.isFavorite" name="heart-outline" color="pink" (tap)="favoritePet(pet);"></ion-icon>
+      <ion-icon class="heart-icon" *ngIf="pet.isFavorite" name="heart" color="pink" (tap)="unFavoritePet(pet);"></ion-icon> -->
+
+    </ion-card>
+  </ion-list>
+</ion-content>

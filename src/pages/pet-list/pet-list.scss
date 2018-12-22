@@ -1,55 +1,73 @@
-.pet-image {
-  position: relative;
-  margin: 0 auto;
-  height: 270px;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
+pet-list {
 
-div.swiper-container {
-  overflow: visible;
+  ion-list {
+    margin-top: 12px !important;
 
-  div.swiper-pagination.swiper-pagination-bullets {
-    bottom: -20px;
+    .pet-image {
+      position: relative;
+      margin: 0 auto;
+      height: 270px;
+      width: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+    }
+
+    .heart-icon {
+      font-size: 35px;
+      position: absolute;
+      z-index: 999999;
+      right: 0;
+      bottom: 0;
+      margin: 0 12px 8px 0;
+    }
+
+    ion-card-content {
+      padding-top: 4px !important;
+
+      .breed {
+        width: calc(100% - 26px);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
   }
-}
 
-.heart-icon {
-  font-size: 35px;
-  float: right;
-  margin-bottom: 10px; 
-}
 
-.heart-nav {
-  position: relative;
-  z-index: 1;
-}
+  div.swiper-container {
+    overflow: visible;
 
-ion-list {
-  margin-top: 12px !important;
-}
+    div.swiper-pagination.swiper-pagination-bullets {
+      bottom: -20px;
+    }
+  }
 
-.pulse {
-  z-index: 0;
-  border-radius: 100%;
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  right: 50%;
-  @include transform(translate(-50%, -50%));
-  &:before,
-  &:after {
+  .heart-nav {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pulse {
+    z-index: 0;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    @include transform(translate(-50%, -50%));
+
+    &:before,
+    &:after {
       content: '';
       position: absolute;
       top: 0;
@@ -59,27 +77,34 @@ ion-list {
       background: radial-gradient(circle, transparent 0%, #ffb3cc 100%);
       border-radius: 100%;
       opacity: 0;
-  }
-  &:before {
+    }
+
+    &:before {
       transform: scale(1);
       -webkit-animation: pulse 2s 1 ease;
       animation: pulse 2s 1 ease;
+    }
+
+    // &:after {
+    //     animation: pulse 2.5s 0.5s 1 ease;
+    // }
   }
-  // &:after {
-  //     animation: pulse 2.5s 0.5s 1 ease;
-  // }
-}
-@keyframes pulse {
-  0% {
+
+  @keyframes pulse {
+    0% {
       transform: scale(0.6);
       opacity: 0;
-  }
-  33% {
+    }
+
+    33% {
       transform: scale(1);
       opacity: 1;
-  }
-  100% {
+    }
+
+    100% {
       transform: scale(1.4);
       opacity: 0;
+    }
   }
+
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FavoritesService } from '../../services/favorites.service';
 import { Subscription } from 'rxjs';
+import { PetModel } from '../../models/pet.model';
 
 @Component({
   selector: 'favorite-pets',
@@ -19,14 +20,19 @@ export class FavoritePetsPage implements OnDestroy {
   onUpdateFavoritePetsSubscription: Subscription;
   favoritePets: any[];
 
-  ngOnDestroy() {
-    if (this.onUpdateFavoritePetsSubscription) {
-      this.onUpdateFavoritePetsSubscription.unsubscribe();
-    }
+  deleteFavoritePet(pet: PetModel) {
+    pet.isFavorite = false;
+    this.favoritesService.removePetFromFavorites(pet);
   }
 
   goToRootPage() {
     this.navCtrl.popToRoot();
+  }
+
+  ngOnDestroy() {
+    if (this.onUpdateFavoritePetsSubscription) {
+      this.onUpdateFavoritePetsSubscription.unsubscribe();
+    }
   }
 
 }

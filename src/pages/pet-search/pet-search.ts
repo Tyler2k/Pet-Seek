@@ -1,19 +1,18 @@
-import { Component, OnInit, trigger, state, style, animate, transition, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { NavController, ModalController, NavParams, Platform, ViewController } from 'ionic-angular';
+import { Component, trigger, state, style, animate, transition, ViewChild, ElementRef } from '@angular/core';
+import { NavController, ModalController } from 'ionic-angular';
 import { LocationService } from '../../services/location.service';
 import { PetFinderService } from '../../services/pet-finder.service';
-import { PetModel, PetQueryRequest } from '../../models/pets.model';
-import { BreedSearchPage } from '../partials/breed-search/breed-search';
+import { PetModel, PetQueryRequest } from '../../models/pet.model';
+import { BreedSearchPage } from '../breed-search/breed-search';
 import { FilterService } from '../../services/filter.service';
 import { PetListPage } from '../pet-list/pet-list';
 import { FavoritePetsPage } from '../favorite-pets/favorite-pets';
-import { LatLng } from '../../models/location.model';
 
 declare var google;
 
 @Component({
-  selector: 'search-filters',
-  templateUrl: 'search-filters.html',
+  selector: 'pet-search',
+  templateUrl: 'pet-search.html',
   styles: [
     `
     .item-block{
@@ -32,7 +31,7 @@ declare var google;
   ]
 })
 
-export class SearchFiltersPage {
+export class PetSearchPage {
 
   constructor(
     public navCtrl: NavController,
@@ -65,10 +64,10 @@ export class SearchFiltersPage {
   favoritesPage: any;
   geocoder;
 
-  // to do
-  // - more map options
-
   ionViewDidLoad() {
+    this.petFinderService.getSinglePet().subscribe(r => {
+      console.log(r)
+    })
     this.locationService.getGeneralLocationFromIp().subscribe(r => {
       this.petRequest.location = r.cityState;
       this.autocomplete.input = r.cityState;
