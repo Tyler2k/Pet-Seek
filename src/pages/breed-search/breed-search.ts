@@ -15,13 +15,16 @@ export class BreedSearchPage implements OnInit {
 
     }
 
-    animal;
-    items;
-    originalItems;
+    items: any;
+    originalItems: any;
 
     ngOnInit() {
         this.items = this.params.get('breedList');
-        this.originalItems = this.items.slice();
+        this.originalItems = [...this.items];
+    }
+
+    trackByFn(index: any, item: any) {
+        return item;
     }
 
     dismiss(data = null) {
@@ -29,7 +32,7 @@ export class BreedSearchPage implements OnInit {
     }
 
     initializeItems() {
-        this.items = this.originalItems.slice();
+        this.items = [...this.originalItems];
     }
 
     getItems(ev: any) {

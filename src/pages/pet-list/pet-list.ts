@@ -3,7 +3,7 @@ import { Platform, NavParams, ViewController, NavController } from "ionic-angula
 import { PetQueryRequest, PetModel } from "../../models/pet.model";
 import { PetFinderService } from "../../services/pet-finder.service";
 import { FavoritesService } from "../../services/favorites.service";
-import { Subscription } from "rxjs";
+import { Subscription, Subject } from "rxjs";
 import { FavoritePetsPage } from "../favorite-pets/favorite-pets";
 import { PetDetailPage } from "../pet-detail/pet-detail";
 
@@ -13,6 +13,9 @@ import { PetDetailPage } from "../pet-detail/pet-detail";
 })
 
 export class PetListPage implements OnInit, OnDestroy {
+
+    destroy$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         public navCtrl: NavController,
         public platform: Platform,
@@ -22,7 +25,9 @@ export class PetListPage implements OnInit, OnDestroy {
         private favoritesService: FavoritesService,
         private applicationRef: ApplicationRef,
     ) {
-        this.onUpdateFavoritePetsSubscription = this.favoritesService.onUpdateFavoritePets().subscribe(pet => { this.favoritePets = pet; });
+        this.onUpdateFavoritePetsSubscription = this.favoritesService.onUpdateFavoritePets()
+        .takeUntil(this.destroy$)
+        .subscribe(pet => { this.favoritePets = pet; });
         this.favoritesPage = FavoritePetsPage;
     }
 
@@ -37,7 +42,7 @@ export class PetListPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log(this.params.get('petRequest'))
-        this.petRequest = Object.assign({}, this.params.get('petRequest'));
+        this.petRequest = { ...this.params.get('petRequest') };
         this.queryPets(this.petRequest);
     }
 
@@ -82,7 +87,7 @@ export class PetListPage implements OnInit, OnDestroy {
         }
         pet.isFavorite = true;
         this.favoritesService.addPetToFavorites(pet);
-        this.applicationRef.tick();        
+        this.applicationRef.tick();
     }
 
     unFavoritePet(pet: PetModel) {
@@ -93,8 +98,7 @@ export class PetListPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.onUpdateFavoritePetsSubscription) {
-            this.onUpdateFavoritePetsSubscription.unsubscribe();
-        }
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
     }
 }

@@ -7,7 +7,7 @@ export class FilterService {
     constructor() { }
 
     getFilters() {
-        return this.filters.slice();
+        return [...this.filters];
     }
 
     filters = [

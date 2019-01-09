@@ -53,7 +53,7 @@ export class LocationService {
 							predictions.forEach((prediction) => {
 								this.autocompleteItems.push(prediction.description.replace(', USA', ''));
 							});
-							resolve(this.autocompleteItems.slice());
+							resolve([...this.autocompleteItems]);
 						});
 					} else {
 						resolve([]);

@@ -89,6 +89,10 @@ export class PetSearchPage {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
+  trackByFn(index: any, item: any) {
+    return item;
+  }
+
   updateSearchResults() {
     if (this.autocomplete.input == '') {
       this.locationPredictions = [];
@@ -163,7 +167,6 @@ export class PetSearchPage {
   getBreedList(animal: string) {
     this.petFinderService.getBreedList(animal, true).subscribe(
       response => {
-        //
         this.breeds = response.breeds;
       }
     )

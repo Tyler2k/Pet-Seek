@@ -29,4 +29,8 @@ export class PetDetailPage implements OnInit {
         this.navCtrl.popToRoot();
     }
 
+    trackByFn(index: any, item: any) {
+        return item;
+    }
+
 }

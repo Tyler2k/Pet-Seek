@@ -33,7 +33,7 @@
 
     <!-- Location Search Predictions Auto Complete List -->
     <ion-list [hidden]="locationPredictions?.length == 0">
-      <ion-item *ngFor="let location of locationPredictions" tappable (tap)="selectLocation(location)">
+      <ion-item *ngFor="let location of locationPredictions; trackBy: trackByFn" tappable (tap)="selectLocation(location)">
         {{ location }}
       </ion-item>
     </ion-list>
@@ -41,14 +41,14 @@
   </ion-item-group>
 
   <!-- Search Filters -->
-  <ion-item-group *ngFor="let filter of filters" [hidden]="validateBreedList(filter)">
+  <ion-item-group *ngFor="let filter of filters;" [hidden]="validateBreedList(filter)">
     <ion-item-divider color="light" (tap)="toggleGroup(filter);">
       {{filter.name}}
       <ion-note item-right>{{filter.currentItem}}</ion-note>
       <ion-icon item-end name="arrow-forward" color="gray" class="arrow" *ngIf="!filter.active"></ion-icon>
       <ion-icon item-end name="arrow-down" color="gray" class="arrow" *ngIf="filter.active"></ion-icon>
     </ion-item-divider>
-    <ion-item *ngFor="let item of filter.items" class="indent" [@expand]="filter.active" (tap)="updateFilter(filter, item);">{{item.name}}</ion-item>
+    <ion-item *ngFor="let item of filter.items;" class="indent" [@expand]="filter.active" (tap)="updateFilter(filter, item);">{{item.name}}</ion-item>
   </ion-item-group>
   <button class="search-button" ion-button medium color="primary" (tap)="searchPets(petRequest)">Search Pets</button>
 </div>

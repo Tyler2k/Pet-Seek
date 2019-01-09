@@ -26,7 +26,7 @@ export class FavoritesService {
     }
 
     getFavoritePets() {
-        return FavoritesService.favoritePets.slice();
+        return [...FavoritesService.favoritePets];
     }
 
     addPetToFavorites(pet: any) {

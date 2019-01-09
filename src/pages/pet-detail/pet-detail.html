@@ -18,7 +18,7 @@
 
 <ion-content>
   <ion-slides [pager]="pet.photos.length > 1 ? true : false">
-    <ion-slide *ngFor="let photo of pet?.photos" class="pet-image">
+    <ion-slide *ngFor="let photo of pet?.photos; trackBy: trackByFn" class="pet-image">
       <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></ion-img>
     </ion-slide>
   </ion-slides>

@@ -18,7 +18,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let pet of favoritePets; let i = index">
+    <ion-item-sliding *ngFor="let pet of favoritePets; let i = index; trackBy: trackByFn;">
       <ion-item>
         <ion-thumbnail item-start [ngStyle]="{'background-image': 'url(' + pet.thumbnail + ')'}">
 
