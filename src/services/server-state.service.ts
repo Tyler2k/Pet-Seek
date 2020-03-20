@@ -1,7 +1,5 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
-
-let pet_list_state_key = makeStateKey('pet_list_state_key');
 
 @Injectable()
 

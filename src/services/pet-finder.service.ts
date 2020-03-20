@@ -1,7 +1,7 @@
 import { PetQueryResponse, PetQueryRequest, BreedListResponse } from './../models/pet.model';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FavoritesService } from './favorites.service';
@@ -41,7 +41,7 @@ export class PetFinderService {
 		if (useState && currentState) {
 			let petListState = currentState[hashedKey];
 			if (petListState) {
-				return Observable.of<PetQueryResponse>(petListState);
+				return of<PetQueryResponse>(petListState);
 			}
 		}
 
@@ -59,7 +59,7 @@ export class PetFinderService {
 		if (useState && currentState) {
 			let breedListState = currentState[hashedKey];
 			if (breedListState) {
-				return Observable.of<BreedListResponse>(breedListState);
+				return of<BreedListResponse>(breedListState);
 			}
 		}
 

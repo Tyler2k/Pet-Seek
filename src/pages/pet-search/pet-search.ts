@@ -1,4 +1,5 @@
-import { Component, trigger, state, style, animate, transition, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { NavController, ModalController } from 'ionic-angular';
 import { LocationService } from '../../services/location.service';
 import { PetFinderService } from '../../services/pet-finder.service';
@@ -49,7 +50,7 @@ export class PetSearchPage {
     this.favoritesPage = FavoritePetsPage;
   }
 
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', {static: false}) mapElement: ElementRef;
   map: any;
 
   pets: PetModel[];

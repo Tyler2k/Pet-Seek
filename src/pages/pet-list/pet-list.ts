@@ -3,7 +3,8 @@ import { Platform, NavParams, ViewController, NavController } from "ionic-angula
 import { PetQueryRequest, PetModel } from "../../models/pet.model";
 import { PetFinderService } from "../../services/pet-finder.service";
 import { FavoritesService } from "../../services/favorites.service";
-import { Subscription, Subject } from "rxjs";
+import { Subscription, ReplaySubject } from "rxjs";
+import { takeUntil} from 'rxjs/operators';
 import { FavoritePetsPage } from "../favorite-pets/favorite-pets";
 import { PetDetailPage } from "../pet-detail/pet-detail";
 
@@ -14,7 +15,7 @@ import { PetDetailPage } from "../pet-detail/pet-detail";
 
 export class PetListPage implements OnInit, OnDestroy {
 
-    destroy$: Subject<boolean> = new Subject<boolean>();
+    destroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     constructor(
         public navCtrl: NavController,
@@ -26,12 +27,12 @@ export class PetListPage implements OnInit, OnDestroy {
         private applicationRef: ApplicationRef,
     ) {
         this.onUpdateFavoritePetsSubscription = this.favoritesService.onUpdateFavoritePets()
-        .takeUntil(this.destroy$)
+        .pipe(takeUntil(this.destroy$))
         .subscribe(pet => { this.favoritePets = pet; });
         this.favoritesPage = FavoritePetsPage;
     }
 
-    @ViewChild('pulseElem') pulseElem: ElementRef;
+    @ViewChild('pulseElem', {static: false}) pulseElem: ElementRef;
 
     onUpdateFavoritePetsSubscription: Subscription;
     pets = [];

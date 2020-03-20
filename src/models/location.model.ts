@@ -1,5 +1,3 @@
-import { AfterViewChecked } from '@angular/core';
-
 export class GeneralUserLocation {
 
 	latLng: LatLng;
