@@ -16,8 +16,9 @@ export class PetFinderService {
 		private serverStateService: ServerStateService,
 	) { }
 
+    private secret = 'UsxJtSKbg3zfbKVNLHiJ2GCI1MXb5esPQpBJLvCK';
 	private static petFinderUrl: string = "http://api.petfinder.com/";
-	private static key = 'fa55926ac35934c7a9cba7c6d287c446';
+	private static key = 'znjv5Fs5AgYTQ3tJr8VehTR4pvordpWyv6cKlirPRxv4ZevQmK' // 'fa55926ac35934c7a9cba7c6d287c446';
 	private pet_list_state_key;
 	private breed_list_state_key;
 
