@@ -21,6 +21,7 @@ import { PetFinderService } from '../services/pet-finder.service';
 import { FilterService } from '../services/filter.service';
 import { FavoritesService } from '../services/favorites.service';
 import { ServerStateService } from '../services/server-state.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ServerStateService } from '../services/server-state.service';
     PetDetailPage
   ],
   providers: [
+    AuthenticationService,
     PetFinderService,
     LocationService,
     StatusBar,

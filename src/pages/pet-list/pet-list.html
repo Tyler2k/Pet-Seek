@@ -20,7 +20,7 @@
 <ion-content>
   <ion-list [virtualScroll]="pets" approxItemHeight="426px">
     <ion-card *virtualItem="let pet;">
-      <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + pet.photos[0] + ')'}" (tap)="showPetDetailPage(pet)"></ion-img>
+      <ion-img class="pet-image" *ngIf="pet.photos" [ngStyle]="{'background-image': 'url(' + pet.photos[0] + ')'}" (tap)="showPetDetailPage(pet)"></ion-img>
       <ion-card-content (tap)="showPetDetailPage(pet)">
         <ion-card-title>
           {{ pet.name }}

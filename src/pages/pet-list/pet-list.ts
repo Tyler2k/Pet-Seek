@@ -56,7 +56,7 @@ export class PetListPage implements OnInit, OnDestroy {
         this.petFinderService.queryPets(petRequest, true).subscribe(
             petList => {
                 this.pets = this.pets.concat(petList.pets);
-                this.petRequest.offset = petList.lastOffset;
+                this.petRequest.page = this.petRequest.page++;
                 if (infiniteScroll) { infiniteScroll.complete(); }
                 this.loading = false;
                 console.log(this.pets)
