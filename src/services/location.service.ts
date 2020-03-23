@@ -37,7 +37,7 @@ export class LocationService {
 
 	reverseGeocode(latlng: any) {
 		return new Promise((resolve) => {
-			this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&result_type=locality&key=AIzaSyBbVCyIrFSyM0BumsIAl0jZb-pHf-59Gmk`).toPromise().then(location => {
+			this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&result_type=locality&key=AIzaSyD-EsdIMx7KpqJlKS9U3Z0nGfRwC2X0BsE`).toPromise().then(location => {
 				resolve(location.results[0]['formatted_address'].replace(', USA', ''));
 			});
 		});
@@ -64,6 +64,7 @@ export class LocationService {
 
 	getGeneralLocationFromIp(): Observable<GeneralUserLocation> {
 		return this.http.get<any>('http://ip-api.com/json?callback').pipe(map(r => {
+            console.log(r);
 			return new GeneralUserLocation(r);
 		}));
 	}

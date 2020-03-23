@@ -40,6 +40,7 @@ export class PetListPage implements OnInit, OnDestroy {
     loading: boolean = false;
     petRequest: PetQueryRequest = new PetQueryRequest();
     favoritesPage: any;
+    totalPages: number = 1;
 
     ngOnInit() {
         console.log(this.params.get('petRequest'))
@@ -52,11 +53,16 @@ export class PetListPage implements OnInit, OnDestroy {
     }
 
     queryPets(petRequest: PetQueryRequest, infiniteScroll?) {
+        if(petRequest.page > this.totalPages) {
+            if (infiniteScroll) { infiniteScroll.complete(); }
+            return;
+        };
         this.loading = true;
         this.petFinderService.queryPets(petRequest, true).subscribe(
             petList => {
                 this.pets = this.pets.concat(petList.pets);
-                this.petRequest.page = this.petRequest.page++;
+                this.petRequest.page = ++this.petRequest.page;
+                this.totalPages = petList.totalPages;
                 if (infiniteScroll) { infiniteScroll.complete(); }
                 this.loading = false;
                 console.log(this.pets)

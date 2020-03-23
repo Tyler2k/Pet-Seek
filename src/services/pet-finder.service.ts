@@ -63,7 +63,7 @@ export class PetFinderService {
     queryPets(request: PetQueryRequest, useState: boolean = false): Observable<PetQueryResponse> {
         let currentState = this.serverStateService.getServerState(this.pet_list_state_key);
         let hashedKey = 'pet-list-' + this.serverStateService.hashString(JSON.stringify(request));
-
+        console.log(request.page)
         if (useState && currentState) {
             let petListState = currentState[hashedKey];
             if (petListState) {
@@ -119,7 +119,7 @@ export class PetFinderService {
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 const val = data[key];
-                if (val !== null && val !== undefined) {
+                if (val !== null && val !== undefined && val !== 'Any') {
                     params = params.append(key, val.toString());
                 }
             }

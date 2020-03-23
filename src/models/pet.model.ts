@@ -153,10 +153,12 @@ export class PetModel {
 export class PetQueryResponse {
     //lastOffset: string;
     pets: PetModel[];
+    totalPages: number;
 
     constructor(response: any, favorites: any) {
         //this.lastOffset = response.petfinder.lastOffset['$t'];
         this.pets = this.formatPets(response.animals, favorites);
+        this.totalPages = response.pagination.total_pages;
     }
 
     private formatPets(pets: PetModel[], favorites: any) {
@@ -184,7 +186,7 @@ export class PetQueryRequest {
         this.gender = gender;
         this.location = location;
         this.age = age;
-        this.page = page;
+        this.page = page ? page : 1;
         this.limit = limit;
     }
 }
