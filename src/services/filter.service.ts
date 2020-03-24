@@ -8,6 +8,19 @@ export class FilterService {
     constructor() { }
 
     types;
+    distance: FilterItem = {
+        name: "Distance (mi)",
+        id: "distance",
+        active: false,
+        currentItem: 500,
+        items: [
+            { name: "10", id: 10 },
+            { name: "25", id: 25 },
+            { name: "50", id: 50 },
+            { name: "100", id: 100 },
+            { name: "500", id: 500 },
+        ]
+    }
     gender: FilterItem = {
         name: "Gender",
         id: "gender",
@@ -56,6 +69,7 @@ export class FilterService {
 
     filterItems = [
         { name: 'Pet Type', id: 'type', property: 'name' },
+        { name: 'Distance', id: 'distance', property: 'distance' },
         { name: 'Breed', id: 'breed', property: 'breeds' },
         { name: 'Gender', id: 'gender', property: 'genders' },
         { name: 'Size', id: 'size', property: 'sizes' },
@@ -177,7 +191,7 @@ export class FilterItem {
     name: string;
     id: string;
     active: boolean;
-    currentItem: string;
+    currentItem: any;
     items: object[];
 
     constructor(obj) {

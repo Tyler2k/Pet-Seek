@@ -94,6 +94,10 @@ export class PetSearchPage {
         })
     }
 
+    segmentChanged(ev: any) {
+        console.log('Segment changed', ev);
+      }
+
     loadMap() {
         let mapOptions = {
             zoom: 14,

@@ -95,7 +95,6 @@ export class PetModel {
 
         this.moreInfo = moreInfoItems;
         this.dislikes = dislikeItems.join(', ');
-        console.log(moreInfoItems)
 
         function translate(value: string, gender: string = null) {
             switch (value) {
@@ -178,8 +177,9 @@ export class PetQueryRequest {
     age: string;
     page: number;
     limit: number;
+    distance: number;
 
-    constructor(type: string = null, breed: string = null, size: string = null, gender: string = null, location: string = null, age: string = null, page: number = null, limit: number = 25) {
+    constructor(type: string = null, breed: string = null, size: string = null, gender: string = null, location: string = null, age: string = null, page: number = null, limit: number = 25, distance: number = 500) {
         this.type = type;
         this.breed = breed;
         this.size = size;
@@ -188,6 +188,7 @@ export class PetQueryRequest {
         this.age = age;
         this.page = page ? page : 1;
         this.limit = limit;
+        this.distance = distance;
     }
 }
 
