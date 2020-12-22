@@ -22,6 +22,7 @@
       <ion-img class="pet-image" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></ion-img>
     </ion-slide>
   </ion-slides>
+  <ion-img *ngIf="!pet.photos" class="pet-image" [ngStyle]="{'background-image': 'url(../../assets/imgs/placeholder.png)'}"></ion-img>
   <ion-list>
     <ion-card *ngIf="pet.description">
       <ion-card-content>

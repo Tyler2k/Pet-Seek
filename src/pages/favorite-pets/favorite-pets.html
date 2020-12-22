@@ -17,12 +17,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <h3 id="favorites-empty-state" *ngIf="!favoritePets?.length">Pets That You Favorite Will Be Saved Here</h3>
+  <ion-list *ngIf="favoritePets?.length">
     <ion-item-sliding *ngFor="let pet of favoritePets; let i = index; trackBy: trackByFn;">
       <ion-item>
-        <ion-thumbnail item-start [ngStyle]="{'background-image': 'url(' + pet.thumbnail + ')'}">
-
-        </ion-thumbnail>
+        <ion-thumbnail *ngIf="pet.thumbnail" item-start [ngStyle]="{'background-image': 'url(' + pet.thumbnail + ')'}"></ion-thumbnail>
+        <ion-thumbnail *ngIf="!pet.thumbnail" item-start [ngStyle]="{'background-image': 'url(../../assets/imgs/placeholder.png)'}"></ion-thumbnail>
         <h2>{{ pet.name }}</h2>
         <h5>{{ pet.breed }}</h5>
         <p>{{ pet.location }}</p>

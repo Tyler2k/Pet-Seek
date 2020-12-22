@@ -1,16 +1,28 @@
 favorite-pets {
-  ion-item ion-thumbnail {
-    width: 70px !important;
-    height: 70px !important;
-    @include background();
-  }
+    ion-item ion-thumbnail {
+        width: 70px !important;
+        height: 70px !important;
+        @include background();
+    }
 
-  #back-arrow {
-    font-size: 46px;
-  }
+    #back-arrow {
+        font-size: 48px;
+    }
 
-  h5 {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
+    h5 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    #favorites-empty-state {
+        margin: 0 auto;
+        padding: 60px;
+        text-align: center;
+        line-height: 28px;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        width: 100%;
+    }
 }

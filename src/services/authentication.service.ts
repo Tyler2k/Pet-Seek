@@ -9,9 +9,9 @@ export class AuthenticationService {
         private http: HttpClient,
     ) { }
 
-    private static secret = 'UsxJtSKbg3zfbKVNLHiJ2GCI1MXb5esPQpBJLvCK';
+    private static secret = 'nQSQ8hxPMlurtt0re0ik7Y4mo4TwD3RrepRUoakD';
     private static petFinderUrl: string = "https://api.petfinder.com/v2";
-    private static key = 'znjv5Fs5AgYTQ3tJr8VehTR4pvordpWyv6cKlirPRxv4ZevQmK';
+    private static key = 'NFVa3Wl23OkKaZpLHQHXfJRUYkXv5Rg0rgphpT2IvfUc31jMpW';
     private static token: string;
 
     getHeader() {
