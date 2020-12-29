@@ -27,7 +27,7 @@ export class LocationService {
 
 	getCurrentLocation() { // returns city and state based on user's lat/long
 		return new Promise((resolve) => {
-			this.geolocation.getCurrentPosition().then(r => {
+			this.geolocation.getCurrentPosition(r => {
 				this.reverseGeocode(`${r.coords.latitude},${r.coords.longitude}`).then(location => {
 					resolve(location);
 				})

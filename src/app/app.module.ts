@@ -58,7 +58,6 @@ import { AuthenticationService } from '../services/authentication.service';
     SplashScreen,
     FilterService,
     ServerStateService,
-    Geolocation,
     FavoritesService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
